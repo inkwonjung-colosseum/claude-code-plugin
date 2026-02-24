@@ -1,0 +1,11 @@
+# 민감 정보 & 런타임 상태 (플러그인 적용 프로젝트에서 생성됨)
+.store/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~

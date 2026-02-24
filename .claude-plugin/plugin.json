@@ -1,0 +1,9 @@
+{
+  "name": "inkwonjung-colosseum-claude-code-plugin",
+  "description": "Atlassian Jira integration plugin for Claude Code — 티켓 관리, 동기화, 분석을 Claude Code에서 바로 수행",
+  "version": "0.0.1",
+  "author": {
+    "name": "inkwonjung-colosseum"
+  },
+  "repository": "https://github.com/inkwonjung-colosseum/claude-code-plugin"
+}
