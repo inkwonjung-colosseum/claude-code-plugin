@@ -2,7 +2,7 @@
 # ============================================================================
 # session-start.sh — 세션 시작 Hook
 # ============================================================================
-# 1. config.json 필수값 검증
+# 1. jira-config.json 필수값 검증
 # 2. .store/ 초기화
 # 3. Jira 동기화 (auto_sync 설정 시)
 # 4. current_ticket 컨텍스트 출력
@@ -16,11 +16,11 @@ PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 SCRIPTS="${PLUGIN_ROOT}/scripts"
 # 프로젝트 루트(현재 작업 디렉토리)에 저장소 생성
 STORE="${PWD}/.store"
-CONFIG="${STORE}/config.json"
-STATE="${STORE}/state.json"
+CONFIG="${STORE}/jira-config.json"
+STATE="${STORE}/jira-state.json"
 
 # ---------------------------------------------------------------------------
-# 0. 필수 도구 검증
+# 0. 필수 도구 검증 (jq, curl, git)
 # ---------------------------------------------------------------------------
 missing_deps=()
 for dep in jq curl git; do
@@ -38,12 +38,12 @@ if [[ ${#missing_deps[@]} -gt 0 ]]; then
 fi
 
 # ---------------------------------------------------------------------------
-# 1. 디렉토리 초기화
+# 1. .store 디렉토리 초기화
 # ---------------------------------------------------------------------------
 bash "${SCRIPTS}/state-manager.sh" ensure-store 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
-# 2. config.json 검증
+# 2. jira-config.json 검증
 # ---------------------------------------------------------------------------
 if ! bash "${SCRIPTS}/jira-api.sh" validate-config 2>/dev/null; then
     bash "${SCRIPTS}/jira-api.sh" validate-config

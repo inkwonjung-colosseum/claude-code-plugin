@@ -13,7 +13,7 @@ model: inherit
 
 ## 사용 가능한 도구
 
-### state.json 읽기
+### jira-state.json 읽기
 ```bash
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/state-manager.sh" get-state-summary
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/state-manager.sh" get-my-tickets-json

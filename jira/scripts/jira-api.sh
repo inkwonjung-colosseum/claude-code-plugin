@@ -12,12 +12,12 @@
 #
 # [환경 변수]
 #   CLAUDE_PLUGIN_ROOT - 플러그인 루트 디렉토리 (선택사항)
-#   ATLASSIAN_DOMAIN   - Jira 도메인 (config.json 없을 때 fallback)
-#   ATLASSIAN_EMAIL    - Atlassian 계정 이메일 (config.json 없을 때 fallback)
-#   ATLASSIAN_API_TOKEN - API 토큰 (config.json 없을 때 fallback)
+#   ATLASSIAN_DOMAIN   - Jira 도메인 (jira-config.json 없을 때 fallback)
+#   ATLASSIAN_EMAIL    - Atlassian 계정 이메일 (jira-config.json 없을 때 fallback)
+#   ATLASSIAN_API_TOKEN - API 토큰 (jira-config.json 없을 때 fallback)
 #
 # [설정 파일]
-#   {PLUGIN_ROOT}/.store/config.json - Atlassian 인증 정보 저장
+#   {PLUGIN_ROOT}/.store/jira-config.json - Atlassian 인증 정보 저장
 #
 # [의존성]
 #   - curl: HTTP 요청
@@ -49,15 +49,15 @@ PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 
 # 설정 파일 경로 (JSON 형식의 Atlassian 인증 정보)
 # 프로젝트 루트(현재 작업 디렉토리)에 저장소 생성
-CONFIG_PATH="${PWD}/.store/config.json"
+CONFIG_PATH="${PWD}/.store/jira-config.json"
 
 # ---------------------------------------------------------------------------
 # 설정 로드 + 검증
 # ---------------------------------------------------------------------------
-# _load_config: config.json에서 Jira 인증 정보를 로드하는 내부 함수
+# _load_config: jira-config.json에서 Jira 인증 정보를 로드하는 내부 함수
 #
 # [동작]
-#   1. config.json 존재 여부 확인
+#   1. jira-config.json 존재 여부 확인
 #   2. jq를 사용하여 domain, email, api_token 추출
 #   3. 환경변수 fallback 적용 (config 값이 없을 경우)
 #   4. 도메인 URL의 후행 슬래시 제거 (URL 조합 오류 방지)

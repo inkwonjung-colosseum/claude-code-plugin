@@ -19,7 +19,7 @@ allowed-tools: Read, Bash
 
 ### `status` 일 때
 동적 컨텍스트의 현재 상태를 그대로 마크다운 포맷으로 예쁘게 출력하세요.
-추가 API 호출 없이 state.json 기반 정보만 사용합니다.
+추가 API 호출 없이 jira-state.json 기반 정보만 사용합니다.
 
 ### `sync` 일 때
 아래 명령으로 Jira API와 동기화를 실행하세요:

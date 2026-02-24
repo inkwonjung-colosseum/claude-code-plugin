@@ -51,7 +51,7 @@ claude --plugin-dir ./jira
 
 ## ⚙️ 설정
 
-플러그인 설치 후, **적용할 프로젝트**에서 `.store/config.json` 파일을 생성합니다:
+플러그인 설치 후, **적용할 프로젝트**에서 `.store/jira-config.json` 파일을 생성합니다:
 
 ```json
 {
@@ -66,7 +66,7 @@ claude --plugin-dir ./jira
 }
 ```
 
-> ⚠️ `.store/config.json`에는 API 토큰이 포함되므로, `.gitignore`에 `.store/`를 추가하세요.
+> ⚠️ `.store/jira-config.json`에는 API 토큰이 포함되므로, `.gitignore`에 `.store/`를 추가하세요.
 
 API 토큰은 [Atlassian API Token 관리](https://id.atlassian.com/manage-profile/security/api-tokens)에서 발급합니다.
 

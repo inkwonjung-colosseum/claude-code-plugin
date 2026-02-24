@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# state-manager.sh — .store/state.json R/W 유틸리티
+# state-manager.sh — .store/jira-state.json R/W 유틸리티
 # ============================================================================
 #
 # [목적]
@@ -10,7 +10,7 @@
 # [사용법]
 #   bash state-manager.sh <command> [args...]
 #
-# [상태 파일 구조] (.store/state.json)
+# [상태 파일 구조] (.store/jira-state.json)
 #   {
 #     "last_synced_at": "2024-01-15T10:30:00+09:00",
 #     "current_ticket": {
@@ -56,10 +56,10 @@ PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 STORE_DIR="${PWD}/.store"
 
 # 상태 파일: 작업 추적용 JSON
-STATE_PATH="${STORE_DIR}/state.json"
+STATE_PATH="${STORE_DIR}/jira-state.json"
 
 # 설정 파일: Atlassian 인증 정보
-CONFIG_PATH="${STORE_DIR}/config.json"
+CONFIG_PATH="${STORE_DIR}/jira-config.json"
 
 # jira-api.sh 로드 (함수 사용)
 # 2>/dev/null: 파일이 없어도 에러 무시
@@ -69,7 +69,7 @@ source "${SCRIPT_DIR}/jira-api.sh" 2>/dev/null || true
 # ---------------------------------------------------------------------------
 # 초기화
 # ---------------------------------------------------------------------------
-# ensure_store: .store 디렉토리 및 state.json 초기화
+# ensure_store: .store 디렉토리 및 jira-state.json 초기화
 #
 # [목적]
 #   플러그인 상태 관리를 위한 디렉토리와 파일이 없으면 생성합니다.
@@ -77,7 +77,7 @@ source "${SCRIPT_DIR}/jira-api.sh" 2>/dev/null || true
 #
 # [동작]
 #   1. .store 디렉토리 생성 (이미 있으면 무시)
-#   2. state.json 파일 생성 (이미 있으면 무시)
+#   2. jira-state.json 파일 생성 (이미 있으면 무시)
 #
 # [초기 상태 구조]
 #   {
@@ -96,7 +96,7 @@ ensure_store() {
     # -p: 상위 디렉토리까지 생성, 이미 있으면 무시
     mkdir -p "$STORE_DIR"
 
-    # state.json이 없으면 초기값으로 생성
+    # jira-state.json이 없으면 초기값으로 생성
     if [[ ! -f "$STATE_PATH" ]]; then
         cat > "$STATE_PATH" <<'EOF'
 {
@@ -106,7 +106,25 @@ ensure_store() {
     "work_history": []
 }
 EOF
-        echo "📂 .store/state.json 초기화 완료"
+        echo "📂 .store/jira-state.json 초기화 완료"
+    fi
+
+    # jira-config.json이 없으면 초기값으로 생성
+    if [[ ! -f "$CONFIG_PATH" ]]; then
+        cat > "$CONFIG_PATH" <<'EOF'
+{
+  "atlassian": {
+    "domain": "https://colosseum.atlassian.net/",
+    "email": "[email]",
+    "api_token": "[atlassian api token]"
+  },
+  "sync": {
+    "exclude_done": true,
+    "auto_sync_on_session_start": true
+  }
+}
+EOF
+        echo "📂 .store/jira-config.json 초기화 완료. 필요한 인증 정보를 입력해주세요."
     fi
 }
 
@@ -384,7 +402,7 @@ set_current_ticket() {
     domain=$(jq -r '.atlassian.domain // empty' "$CONFIG_PATH" 2>/dev/null)
     domain="${domain%/}"
 
-    # state.json 업데이트
+    # jira-state.json 업데이트
     # $info + 추가 필드로 current_ticket 설정
     jq --argjson info "$ticket_info" \
        --arg started "$now" \
@@ -474,7 +492,7 @@ clear_current_ticket() {
 #   없음
 #
 # [반환값]
-#   없음 (jq 결과로 state.json 직접 수정)
+#   없음 (jq 결과로 jira-state.json 직접 수정)
 _move_current_to_history() {
     local now
     now=$(date +"%Y-%m-%dT%H:%M:%S%z" | sed 's/\(..\)$/:\1/')
@@ -502,13 +520,13 @@ _move_current_to_history() {
 #
 # [목적]
 #   Jira API를 호출하여 현재 사용자에게 할당된 티켓 목록을 가져와
-#   state.json의 my_tickets를 업데이트합니다.
+#   jira-state.json의 my_tickets를 업데이트합니다.
 #
 # [동작]
 #   1. Jira 설정 검증
 #   2. jira_get_my_issues API 호출
 #   3. 응답을 my_tickets 형식으로 변환
-#   4. state.json 업데이트
+#   4. jira-state.json 업데이트
 #
 # [JQL 쿼리]
 #   assignee = currentUser() AND statusCategory != Done
@@ -573,7 +591,7 @@ sync_my_tickets() {
     local now
     now=$(date +"%Y-%m-%dT%H:%M:%S%z" | sed 's/\(..\)$/:\1/')
 
-    # state.json 업데이트
+    # jira-state.json 업데이트
     jq --argjson tickets "$tickets" \
        --arg now "$now" \
        '.my_tickets = $tickets | .last_synced_at = $now' \
@@ -606,7 +624,7 @@ sync_my_tickets() {
 # [동작]
 #   1. current_ticket이 있는지 확인
 #   2. Jira API에서 최신 상태 조회
-#   3. state.json의 current_ticket.status 업데이트
+#   3. jira-state.json의 current_ticket.status 업데이트
 #
 # [파라미터]
 #   없음
