@@ -1,6 +1,0 @@
-{
-  "typescript": {
-    "command": "npx",
-    "args": ["-y", "@vtsls/language-server", "--stdio"]
-  }
-}
