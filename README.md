@@ -4,8 +4,24 @@ inkwonjung-colosseum의 Claude Code 플러그인 모음입니다.
 
 ## 📦 설치
 
+### 마켓플레이스를 통한 설치
+
+1. Claude Code 세션에서 마켓플레이스 추가:
+
+```
+/plugin marketplace add inkwonjung-colosseum/claude-code-plugin
+```
+
+2. Jira 플러그인 설치:
+
+```
+/plugin install jira@inkwonjung-colosseum-claude-code-plugin
+```
+
+### 로컬 테스트
+
 ```bash
-claude plugin add inkwonjung-colosseum/claude-code-plugin
+claude --plugin-dir ./jira
 ```
 
 ## 🧩 포함 플러그인

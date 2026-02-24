@@ -13,13 +13,11 @@
       "description": "Atlassian Jira 통합 플러그인 — 티켓 관리, 동기화, 워크로드 분석을 Claude Code에서 바로 수행",
       "version": "0.0.1",
       "author": {
-        "name": "inkwonjung-colosseum"
+        "name": "inkwonjung-colosseum",
+        "email": "developjik@colosseum.kr"
       },
       "repository": "https://github.com/inkwonjung-colosseum/claude-code-plugin",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/inkwonjung-colosseum/claude-code-plugin.git"
-      },
+      "source": "./jira",
       "category": "productivity",
       "keywords": [
         "atlassian",
