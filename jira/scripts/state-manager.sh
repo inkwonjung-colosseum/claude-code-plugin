@@ -52,7 +52,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 
 # .store 디렉토리: 설정 및 상태 파일 저장 위치
-STORE_DIR="${PLUGIN_ROOT}/.store"
+# 프로젝트 루트(현재 작업 디렉토리)에 저장소 생성
+STORE_DIR="${PWD}/.store"
 
 # 상태 파일: 작업 추적용 JSON
 STATE_PATH="${STORE_DIR}/state.json"

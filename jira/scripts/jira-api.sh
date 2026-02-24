@@ -48,7 +48,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 
 # 설정 파일 경로 (JSON 형식의 Atlassian 인증 정보)
-CONFIG_PATH="${PLUGIN_ROOT}/.store/config.json"
+# 프로젝트 루트(현재 작업 디렉토리)에 저장소 생성
+CONFIG_PATH="${PWD}/.store/config.json"
 
 # ---------------------------------------------------------------------------
 # 설정 로드 + 검증

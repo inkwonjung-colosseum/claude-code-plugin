@@ -14,7 +14,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(dirname "$SCRIPT_DIR")}"
 SCRIPTS="${PLUGIN_ROOT}/scripts"
-STORE="${PLUGIN_ROOT}/.store"
+# 프로젝트 루트(현재 작업 디렉토리)에 저장소 생성
+STORE="${PWD}/.store"
 CONFIG="${STORE}/config.json"
 STATE="${STORE}/state.json"
 
